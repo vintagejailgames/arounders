@@ -1,0 +1,158 @@
+Procedure Fill (X, Y : Word; C : Byte; address : Word);
+Var
+  P1, P2     : Pointer;
+  Sg1, Sg2, P,
+  ZX, ZY, ZP : Word;
+  CO         : Byte;
+Begin
+  GetMem (P1, 64000);
+  GetMem (P2, 64000);
+  Sg1 := Seg(P1^);
+  Sg2 := Seg(P2^);
+Asm
+  Mov   AX, address
+  Mov   ES, AX
+  Mov   DI, X
+  Mov   BX, Y
+  ShL   BX, 6
+  Add   DI, BX
+  ShL   BX, 2
+  Add   DI, BX
+  Mov   AL, ES:[DI]
+  Cmp   AL, C
+  JE    @end
+  Mov   CO, AL
+  Mov   ZP, 0
+  Mov   AX, X
+  Mov   ZX, AX
+  Mov   AX, Y
+  Mov   ZY, AX
+@cycle:
+  Mov   AX, address
+  Mov   ES, AX
+  Mov   DI, ZX
+  Mov   BX, ZY
+  ShL   BX, 6
+  Add   DI, BX
+  ShL   BX, 2
+  Add   DI, BX
+  Mov   P, DI
+  Mov   AL, C
+  Mov   ES:[DI], AL
+
+  Mov   AX, ZX
+  Or    AX, AX
+  JZ    @l2
+  Mov   AL, ES:[DI-1]
+  Cmp   AL, CO
+  JNE   @l2
+  Dec   DI
+  Push  ES
+  Mov   AX, Sg1
+  Mov   BX, ZP
+  Cmp   BX, 32000
+  JC    @l1
+  Mov   AX, Sg2
+  Sub   BX, 32000
+@l1:
+  Mov   ES, AX
+  Shl   BX, 1
+  Mov   ES:[BX], DI
+  Inc   ZP
+  Pop   ES
+  Inc   DI
+@l2:
+  Mov   AX, ZX
+  Cmp   AX, 319
+  JNC   @r2
+  Mov   AL, ES:[DI+1]
+  Cmp   AL, CO
+  JNE   @r2
+  Inc   DI
+  Push  ES
+  Mov   AX, Sg1
+  Mov   BX, ZP
+  Cmp   BX, 32000
+  JC    @r1
+  Mov   AX, Sg2
+  Sub   BX, 32000
+@r1:
+  Mov   ES, AX
+  Shl   BX, 1
+  Mov   ES:[BX], DI
+  Inc   ZP
+  Pop   ES
+  Dec   DI
+@r2:
+  Mov   AX, ZY
+  Or    AX, AX
+  JZ    @u2
+  Mov   AL, ES:[DI-320]
+  Cmp   AL, CO
+  JNE   @u2
+  Sub   DI, 320
+  Push  ES
+  Mov   AX, Sg1
+  Mov   BX, ZP
+  Cmp   BX, 32000
+  JC    @u1
+  Mov   AX, Sg2
+  Sub   BX, 32000
+@u1:
+  Mov   ES, AX
+  Shl   BX, 1
+  Mov   ES:[BX], DI
+  Inc   ZP
+  Pop   ES
+  Add   DI, 320
+@u2:
+  Mov   AX, ZY
+  Cmp   AX, 199
+  JNC   @d2
+  Mov   AL, ES:[DI+320]
+  Cmp   AL, CO
+  JNE   @d2
+  Add   DI, 320
+  Push  ES
+  Mov   AX, Sg1
+  Mov   BX, ZP
+  Cmp   BX, 32000
+  JC    @d1
+  Mov   AX, Sg2
+  Sub   BX, 32000
+@d1:
+  Mov   ES, AX
+  Shl   BX, 1
+  Mov   ES:[BX], DI
+  Inc   ZP
+  Pop   ES
+  Sub   DI, 320
+@d2:
+  Mov   BX, ZP
+  Or    BX, BX
+  JZ    @end
+  Dec   BX
+  Mov   ZP, BX
+  Mov   AX, Sg1
+  Cmp   BX, 32000
+  JC    @p1
+  Mov   AX, Sg2
+  Sub   BX, 32000
+@p1:
+  Mov   ES, AX
+  Shl   BX, 1
+  Mov   AX, ES:[BX]
+  Mov   P, AX
+
+  Mov   AX, P
+  Xor   DX, DX
+  Mov   BX, 320
+  Div   BX
+  Mov   ZY, AX
+  Mov   ZX, DX
+  Jmp   @cycle
+@end:
+End;
+  FreeMem (P2, 64000);
+  FreeMem (P1, 64000)
+End;

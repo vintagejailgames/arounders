@@ -1,0 +1,50 @@
+program Arounders2;
+
+uses AGraf, ASound, AData, 
+
+begin
+
+InitAll;			{ ho inicialitza tot }
+
+Repeat
+
+  Menu;				{ presenta el menú principal }
+  
+  InitGame;			{ inicialitza la fase }
+  
+  Repeat
+    
+    RefreshData;		{ Actualitza totes les dades }
+    RefreshFrame;		{ Actualitza tots els grafics }
+    
+  Until Signal_EndGame;		{ fins que acave la fase }
+  
+  EndGame;			{ finalitza la partida }
+  MenuEnd;			{ menú de final de fase }
+  
+Until Signal_EndAll;		{ fins que eixim del joc }
+
+EndAll;				{ ho finalitza tot }
+
+end.
+
+
+Procedure Actions;
+begin
+case action of
+  caminar:	A_Caminar_Main;
+  cavar:	A_Cavar_Main;
+  ...
+  end;
+
+end;
+
+Procedure A_Caminar_Main;
+begin
+case estat of
+  inicialitzant:	A_Caminar_Init;
+  executant:		A_Caminar_Main;
+  finalitzant:		A_Caminar_End;
+  end;
+end;
+

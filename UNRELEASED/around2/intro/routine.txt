@@ -1,0 +1,40 @@
+320*200 = 64000
+
+460*140 = 64400
+
+Procedure DrawPantalla(mov : word);
+begin
+If mov = 0 then
+  begin
+  flip(p1,WP);
+  exit;
+  end;
+If mov = 320 then
+  begin
+  flip(p2,WP);
+  exit;
+  end;
+PutBloc(p1, mov, 0, WP, 0      , 0, 320-mov, 200);
+PutBloc(p2, 0  , 0, WP, 320-mov, 0, mov    , 200);
+end;
+
+
+
+
+
+
+LoadGIF('intro/p1.gif',p1);
+
+StorePalette(pal);
+
+For i := 0 to 15 do
+  begin
+  For j := 0 to 15 do
+    begin
+    pal[j*16].r := pal[i].r+(((255 - pal[i].r) div 16)*j);
+    pal[j*16].g := pal[i].g+(((255 - pal[i].g) div 16)*j);
+    pal[j*16].b := pal[i].b+(((255 - pal[i].b) div 16)*j);
+    end;
+  end;
+
+savepalette('intro/pal1.pal',pal);

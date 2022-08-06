@@ -1,0 +1,33 @@
+WAVS
+
+snd1 - taladre
+snd2 - entrar
+snd3 - eixir
+snd4 - boom
+snd5 - escala
+snd6 - stop
+
+MIDS
+
+mus1 - intro
+mus2 - thx
+mus3 - around1
+mus4 - undersea
+mus5 - cantina
+
+GIFS
+
+grf01 - cred    pal03
+grf02 - thx     pal04
+grf03 - titles  pal02
+grf04 - scene1  pal02
+grf05 - scene2  pal02
+grf06 - scene3  pal02
+grf07 - scene4  pal02
+grf08 - scene5  pal02
+grf09 - scene6  pal02
+grf10 - menu    pal02
+grf11 - fase    pal01
+grf12 - spr     pal01
+grf13 - guay    pal02
+grf14 - mort    pal02

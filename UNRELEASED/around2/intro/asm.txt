@@ -1,0 +1,281 @@
+Chapter 14 -- Combining Pascal with Assembly
+  
+Introduction 
+
+Hi! Nice to meet you again! I'm sure you've got a nice expirience in 256 color graphic. :-) Now, I'd like to explain how to combine Pascal and Assembly. This can be done in two ways and I'll explain both. I think you should've learnt assembly a little bit before you can fully understand this chapter. 
+  
+
+What to Learn 
+
+Combining assembly with pascal is the objective of this chapter. Of course the main program is in Pascal. Why should we combine them? It is because the speed of assembly is very tempting and the ease of Pascal is gorgeous. :-) Programming entirely in assembly is not a good idea. Although it will achieve the fastest possible speed of the program, the task is very daunting. :-) Programming entirely in Pascal is a nice idea since Pascal provides a lot of features. However, the speed in Pascal sometimes unsatisfactory, especially in a high speed games. So, the idea is combine them and get the optimum result! :-) 
+
+There are two ways in combining Assembly and Pascal. Both are supported in Pascal. The first is internally, the second is externally. To do the first way, you need to have at least Turbo Pascal 6.0 otherwise you can only the second way. There is another way to combine assembly codes here. It is through inline statement. I'll discuss that a bit. It is quite difficult because we must know the machine language instead the assembly language. 
+  
+
+Internal Combination 
+
+Beginning with the version 6.0, Borland introduced a very easy way to incorporate assembly language. The directive asm and assembler help us to achieve our goal. The assembly language is embedded inside our Pascal program. A neat approach! This is often called as inline assembly. 
+
+You can insert assembly instructions anywhere inside your program. The assembly instruction is inserted within the block asm...end. Unlike Pascal programs, the assembly instructions here don't need to be ended by semicolons(;). Here's how to do it: 
+
+begin 
+  : 
+  :   { Do some Pascal's feature } 
+  : 
+  asm 
+    :  { Assembly commands go here } 
+    : 
+  end; 
+  :  { Do some other Pascal command } 
+  : 
+end. 
+
+Easy right? You can access the Pascal's variables directly with assembly instructions. Remember that you can only access the variables into the correct registers. For example, byte or shortint variables can only be accessed with 8-bit registers, such as AH, AL, BH, BL, CH, CL, DH, and DL. Word or integer variables must be accessed with 16-bit registers. Long integers must be accessed with the DX:AX pairs like this: 
+
+mov dx,[alongintvariable] 
+mov ax,[alongintvariable+2] 
+
+Pointers, arrays, and records are usually accessed as if it is a pointer. Use the DS:SI or ES:DI pairs and the instruction les or lds to load them. Float needs the math co-processor(FPU) register st(0) to process. It will later be explained, not in this lesson, neither in the next chapter. 
+
+Just take a caution that you can only use up to 80286 assembly instruction. If you use any of 80286 instructions, you need to turn on the $G+ switch. 
+
+You can make a label to jump to. The naming convention for labels are perfectly the same as that in the assembly. 
+
+You can make a procedure or a function completely in assembly inside Pascal. Just add the assembler directive. Look at this: 
+
+procedure init; assembler; 
+asm 
+  mov ax,13h 
+  int 10h 
+end; 
+
+The procedure began with asm rather with the usual begin. You can give local variables inside that procedure too. You can access the parameter as normal variables. However, you need to know that parameters passed with var argument are actually pointers. Look at this swap procedure: 
+
+procedure swap (var a, b : word); assembler; 
+asm 
+  les di,[a] 
+  mov ax,[es:di] 
+  les di,[b] 
+  mov bx,[es:di] 
+  mov [es:di],ax 
+  les di,[a] 
+  mov [es:di],bx 
+end; 
+
+Yes, you treat both a and b as pointers. Therefore, you use les di... to access it. If you simply do this inside asm...end: 
+
+  mov ax,[a] 
+  mov bx,[b] 
+  mov [a],bx 
+  mov [b],ax 
+
+The result will be unpredictable! So, be careful! 
+
+How about a function? It is similar to procedure. The parameters can also be accessed in assembly. The var parameter rule applies here too. However, we need to pay attention to the return value. If the return value is either byte or shortint, you need to place it in AL. If the return value is either word or integer, you need to place it in AX. If the return value is a real, you need to place it in st(0), the FPU first stack register. If the return value is either longint or pointer, you need to place it in DX:AX register pair with DX contains the high word and AX contains the low word. If the return value is a string, you need to place it in DX:AX register pair containing the pointer to string. However, the DX:AX must contain the Pascal string format, i.e. the first byte contains the length of the string, then the rest contains the string data. It is not allowed for us to return arrays or records. However, I suggest you not to return strings. It's pretty complicated. 
+
+You can use seg and offset inside your inline assembly. However, you can not use the @data and @code directly, such as: 
+
+mov ax,@data 
+
+It is not allowed in Pascal. Pretty strange :-) It's funny but true. In assembly you can do this, right? External combination allows this too, but for inline assembly you need to convert the clause above into: 
+
+mov ax, seg @data 
+
+Pretty funny... :-) Every body knows that @data is a segment value. This rule applies to @code, too. 
+  
+
+External Combination 
+
+Internal combination worth its simple task. The drawback is that we cannot use 80386 or better instructions. It is sad to know that we must go to external combination to accomplish such task. 80386 instructions provides a lot improvements, including the 32-bit registers. 
+
+First, you need to have Turbo Assembler version 3.0 or better. You can have any version of Pascal, but it's better for you to have Borland Pascal 7.0. It is because BP 7 has Tasm 3.2 included. :-) 
+
+Combining two program is not a simple tasks. A special care needs to be taken. First of all, the variable types. It is needed to pass parameters. Look at this table: 
+  
+  
+
+Difference Between Pascal and Assembly Variable Pascal Assembly 
+byte byte 
+shortint byte 
+word word 
+integer word 
+longint dword 
+string dword 
+record dword 
+array dword 
+pointer dword 
+real qword 
+
+String, record, and array is usually passed as pointers. Therefore, you need to specify it as double word. Real variables are usually passed as qwords. 
+The first thing to tune is the assembly source. You can edit the assembly source inside your BP editor then compile it to OBJ with <shift+F3>. The structure of assembly source is nearly the same as you'd build normal assembly programs except: 
+
+You must include the word large, pascal in the model directive. 
+You may not have a main routine here. You can just have a collection of procedures. 
+Since assembly doesn't has any function declarations, all functions are expressed in procedures with a special care. 
+All exported routines must be declared public. 
+You MAY NOT fiddle with BP, SP, SS and DS registers. If you use any of it inside your procedures, you need to restore them later. 
+You must provide the correct translation between Pascal and Assembly variables. It is needed in order to synchronize both modules. Look at the above table. 
+You must check the amount of the declared parameters of procedure or function in Pascal whether it is the same as in the Assembly counterpart. 
+All procedures that is declared public must match with the external part in Pascal. 
+You may not have pre-initialized variables in assembly source. All variables must be marked as question mark (uninitialized). 
+You may not assume the location of Pascal private variable (i.e. not declared as external). Otherwise, your code will be unflexible and that makes linker's job difficult. 
+No more exception. :-) 
+That's the rule. :-) Pretty much. :-) Look at this example. This is an assembly source. Name this as MYCRT.ASM. 
+
+--------------------------------------------------------------------------------
+
+ideal 
+p286n 
+model large, pascal 
+data 
+  temp db ?        ; You may not specify initialized variables here. 
+                   ; Leave it uninitialized (in question marks) 
+
+  extrn txtcolor:byte  ; Import txtcolor variable from Pascal. 
+code 
+  public cls, writexy, getshift, swap, getkey 
+
+  proc cls 
+       mov   ax,0b800h 
+       mov   es,ax 
+       mov   ax,0700h 
+       mov   cx,2000 
+       xor   di,di 
+       cld 
+       rep   stosw  ; Clear screen by filling it with blanks 
+       xor   dx,dx 
+       xor   bh,bh 
+       mov   ah,2 
+       int   10h    ; Reset the cursor to top-left corner 
+       ret 
+  endp 
+
+  proc writexy x:byte, y:byte, s:dword 
+       mov   al,[y] 
+       cbw 
+       dec   ax 
+       shl   ax,5 
+       mov   di,ax 
+       shl   ax,2 
+       add   di,ax 
+       mov   al,[x] 
+       cbw 
+       dec   ax 
+       shl   ax,1 
+       add   di,ax   ; Up to this line is to calculate (y-1)*160+(x-1)*2 
+       mov   ax,0b800h 
+       mov   es,ax   ; Setup text screen segment 
+       mov   ah,[txtattr]  ; Store the attribut in CH 
+       push  ds      ; We want to modify DS, so safe it first 
+       lds   si,[s]  ; Load the string parameter 
+       lodsb         ; Get the length 
+       mov   cl,al 
+       xor   ch,ch   ; Setup the counter in CX 
+       cld 
+@@theloop: 
+       lodsb         ; Print it out to screen with the help of loop 
+       stosw 
+       loop  @@theloop 
+       pop   ds      ; We've done, so restore DS 
+       ret 
+  endp 
+
+  proc getshift 
+       xor   ax,ax 
+       mov   es,ax 
+       mov   bx,417h 
+       mov   al,[es:bx]   ; The returned value placed in AL 
+       ret 
+  endp 
+
+  proc swap a:dword, b:dword 
+       les   di,[a] 
+       mov   ax,[es:di] 
+       les   di,[b] 
+       mov   bx,[es:di] 
+       mov   [es:di],ax 
+       les   di,[a] 
+       mov   [es:di],bx 
+       ret 
+  endp 
+
+  proc getkey 
+       mov   al,[temp] 
+       or    al,al 
+       jnz   @@done 
+       xor   ah,ah 
+       int   16h 
+       or    al,al 
+       jnz   @@done 
+       mov   [temp],ah 
+  @@done: 
+       ret 
+  endp 
+
+end 
+
+
+
+--------------------------------------------------------------------------------
+
+Temp here is a private variable, so it is not exported. Txtcolor is imported variable from Pascal. Getkey here is similar to readkey in Pascal's CRT unit. Cls is also similar to clrscr. 
+ If you forgot to declare any exported procedures, the linker will spit an error. I think that's pretty clear. Now, see how the Pascal program in action. Name this MYCRT.PAS. 
+
+
+
+--------------------------------------------------------------------------------
+
+unit mycrt; 
+interface 
+var 
+  txtcolor : byte; 
+
+procedure cls; 
+procedure writexy(x, y : byte; s : string); 
+function  getshift : byte; 
+procedure swap (var a, b : word); 
+function  getkey : char; 
+
+implementation 
+
+procedure cls; external; 
+procedure writexy(x, y : byte; s : string); external; 
+function  getshift : byte; external; 
+procedure swap (var a, b : word); external; 
+function  getkey : char; external; 
+{$L MYCRT.OBJ} 
+
+begin 
+  txtcolor:=7; 
+end. 
+
+
+
+--------------------------------------------------------------------------------
+
+Yep! You then can use MYCRT unit in uses clause and use it normally. 
+You must put exported variables in interface section. Then you declare the header of each function and procedure there. In the implementation part, you declare all the imported routines into external, just like VGADriver routine in chapter 7. You group all the routines and at the end, you specify the object file name in $L switch. Easy, right? 
+  
+
+Notes 
+
+That's all folks! Now that you are able to combine the power of Assembly into your Pascal program. It is used very much if you want top speed. Shall we go to the next lesson? Or you still don't understand? Mail me! 
+
+
+
+--------------------------------------------------------------------------------
+
+Where to go?
+Back to main page 
+Back to Pascal Tutorial Lesson 2 contents 
+Quiz? No quiz. I think you are pretty mature in programming! :-) 
+To Chapter 15 about using math co-processor. 
+My page of programming link 
+Mail me in this address or in alternate address 
+
+
+--------------------------------------------------------------------------------
+
+By: Roby Johanes, © August 1997 
+  
+  
