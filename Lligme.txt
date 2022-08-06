@@ -1,0 +1,93 @@
+JailDoctor Games Presenta...
+*******************************************************************************************
+**                                                                                       **
+**                                       AROUNDERS                                       **
+**                                                                                       **
+*******************************************************************************************
+versió 0.99 RELEASE
+
+
+HISTÒRIA
+========
+
+Al principi dels temps l'univers era una massa concetrada de materia que va explotar i...
+però avancem un poc en la història: Açò era baloo, barba peluda, el pelo pinxo i pantaló
+bermuda, que se anava a menjar narantxes, se ana a dentr para hechar desmadre, però antes
+se ana a fer-se un cortaet... i aixó pot ser FATAL...
+
+
+REQUERIMENTS TÈCNICS
+====================
+
+Aquest joc s'ha testejat en un PIII 450, un PMMX 200 i un P 75, sense cap mena de problemes
+Teòricament, deuria funcionar també en un 486 o inclus en un 386 de gama alta.
+
+* Targeta de só compatible amb la SoundBlaster.
+* Targeta de video VGA.
+* Ratolí.
+* Teclat.
+* Disc Dur.
+* Monitor.
+* Impresora (¿¿??)
+OPCIONAL: Scanner, scanner!
+
+
+INSTRUCCIONS
+============
+
+Has de dur a tots els arounders necessaris des d'una porta del nivell fins l'altra.
+
+Teclat:
+  ESC: Abandonar la partida
+  P: Pausa (tornar a apretar per a eixir de la Pausa)
+
+Ratolí:
+  Botó 1: Seleccionar arounder / seleccionar acció
+  Botó 2: El arounder seleccionat deixa de fer el que està fent
+
+Accions: (ordenades d'esquerra a dreta de la barra)
+
+ * Aroundar:
+    Per defecte, no farà falta mai que apretem aquest botó. El arounder caminarà fins que
+    no puga seguir (i pegarà la volta) o fins la mort...
+
+ * Parar:
+    El arounder pararà de aroundar i, a més, farà pegar la volta a tots els arounders que
+    se li acosten. Aquesta acció es du a terme nomes pulsar el botó.
+
+ * Cavar:
+    El arounder farà un forat en la paret fins que no hi haja res més que foradar. Aquesta
+    acció es du a terme quan el arounder es trobe amb una paret.
+
+ * Escalar:
+    El arounder escalarà fins que arrive dalt del tot, o no puga seguir. Es dú a terme al 
+    trobar-se una paret.
+
+ * Perforar:
+    Fà un forat en terra, fins que no puga seguir avall. Es dú a terme només pulsar el botó.
+
+ * Escalera:
+    Construeix una escalera fins que no puga seguir o s'acaven els escalons. Es dú a terme
+    nomes pulsar el botó.
+
+ * Pasarela:
+    Com la escalera però en horitzontal. Construeix un pont. Es dú a terme al pulsar-lo.
+
+ * Corda:
+    El arounder solta una corda desde un precipici fins a terra. Es dú a terme al trobar-se
+    una paret. Tots els arounders que arriven a un precipici amb corda, baixaran per ella,
+    pero els que se troben baix pujaran per ella. Si pugen per el costat equivocat, cauran.
+
+ * Suicidi:
+    El arounder agarra i explota de rabia. La mort es immediata.
+
+ * Suicidi col·lectiu:
+    Voràs un montó de pixels en la pantalla !!!
+
+Crec que tot lo demés ja parla per si sol...
+
+
+
+Dubtes, consultes, consells, polls, cheques al portador...
+
+			jaildoctor@jazzfree.com

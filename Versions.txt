@@ -1,0 +1,78 @@
+
+
+VERSIONS:
+=========
+
+v1.00 RELEASE 2:
+	- Solucionat un bug en els grafics
+	- 
+
+v0.99 RELEASE 1:
+	- Canviats i arreglats TOTS els nivells
+	- Ampliat el nombre de nivells a...
+	- Llevats els "hidden Decorats" per falta de memòria, temps, diners i ganes.
+	- Anyadides mogolló de "intros" i grafics més entre mig del joc.
+	- No he anyadit més midis, per un nou projecte.
+	- Solucionat un poll en la acció "PERFORAR".
+	- Solucionat un poll del WAVPlayer que feia un "fuck'em all" amb la memòria.
+v0.97 BETA 7:
+	- Si passes per darrere d'una escalera, ja no gires com si fora una paret.
+	- Anyadida la opció "DESCENS". Explicada en el "lligme.txt".
+	- Canviats i millorats la majoria dels nivells.
+	- Millorat el AroundED i passat a la versió 1.0
+	- Anyadits a lot of gràfics nous.
+	- Anyadits els "Hidden Decorats".
+	- Acabada la història del final.
+v0.94 BETA 6:
+	- Canviades un poc les fonts i altres pijades.
+	- Solucionat el poll que feia que explotaren nomes començar.
+	- Solucionat un poll que quan arrives amb més baloos dels necesaris perds.
+	- Anyadit el programa SETUP.EXE per a configurar la targeta de só.
+	- El programa ja no es penja quan no tens targeta de só.
+	- Solucionat un poll en el .TXT que ficava que era la versió BETA 15 !!!
+v0.91 PUBLIC BETA 5:
+	- Primera beta feta pública.
+	- He llevat alguns WAVs per a que no bote cada dos per tres un error.
+	- Sol·lucionats uns quants polls en les unitats WAVPlay(c) i MIDPlay(c).
+	- Grafics, só i música en format .BAL
+	- Alguns polls de "error de pila" sol·lucionats.
+v0.9 BETA 4
+	- El joc ja no utilitza la interrupció del rellotge.
+	- Sol·lucionats alguns polls de les unitats WAVPlay(c) i MIDPlay(c).
+	- Só digital en format .WAV amb la unitat WAVPlay(c).
+	- Xicotetes millores en alguns gràfics.
+v0.85 BETA 3
+	- Música soportada en format .MID amb la unitat MIDPlay(c).
+	- Sol·lucionat un poll enorme amb la pila i el heap.
+	- Grafics en format .GIF amb la unitat GIFLoad(c).
+	- Millora en els menús, els gràfics i en una animalada de coses.
+v0.76 BETA 2
+	- polls menors referents al timer sol·lucionats
+	- Música en format .XMI amb una unitat anomenada MIDPack.
+	- Solucionats alguns polls dels nivells.
+	- Nou format .BAL per als nivells. Ara tots junts.
+	- Passwords encriptats, per a que els hackers de turno se jodan.
+	- Solucionats diversos polls del AroundED.
+v0.7 BETA 1
+	- Solucionats diversos polls en el tema dels passwords.
+	- Música en format .DWM amb una unitat anomenada DWM.
+v0.61 ALPHA 6
+	- Solucionat un poll en la acció "escalera"
+	- Nova intro i millora en els menus.
+	- Solucionat un poll que no alliberaba la memòria al eixir.
+	- Detectat algun que altre poll en el timer.
+	- Nou format de nivells individuals .LEV
+	- Creat el AroundED(c), un editor de nivells per al Arounders(c).
+v0.61 ALPHA 5
+	- Solucionats uns quants polls en les accions "escalar" i "perforar"
+	- Anyadida la acció "pasarela"
+	- Solucionat un poll enorme amb el timer.
+	- Menú Passwords ja operatiu.
+	- Anyadida l'aigua que es veu baix de cada nivell.
+	- Anyadits molts gràfics nous per als nivells.
+v0.6 ALPHA 4
+	- Anyadides les accions "suicidi", "suicidi colectiu" i "escalera"
+	- Anyadida la barra de botons i d'informació.
+	- Motor del joc MOLT millorat
+
+No hi ha historial sobre versions anteriors...
